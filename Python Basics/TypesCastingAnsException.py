@@ -26,18 +26,44 @@ while True:
 class B(Exception):
     pass
 
-class C(B):
+class C(Exception):
     pass
 
-class D(C):
+class D(Exception):
     pass
 
 for cls in [B,C,D]:
     try:
         raise cls()
     except D:
-        print("B")
-    except C:
-        print("C")
-    except B:
         print("D")
+    except B:
+        print("C")
+    except C:
+        print("D")
+
+# Expections With Parameters
+
+try:
+    raise Exception("spam", "eggs")
+except Exception as inst:
+    print(type(inst))
+    print(inst.args)
+    print(inst)
+
+# Exception in function
+    
+def func():
+    raise ConnectionError
+
+try:
+    func()
+except ConnectionError as exc:
+    raise RuntimeError('Custom Message') from exc
+
+# Exceptions Finally Clause
+
+try:
+    raise KeyboardInterrupt
+finally:
+    print('Goodbye, world!')
